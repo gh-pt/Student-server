@@ -24,9 +24,8 @@ app.post('/byENR', async (req, res) => {
         }
         else if (result?.appno) {
             query = {
-                "EduLearn Application No.": { $in: [...result.appno] }  // Correct syntax
+                "EduLearn Application No.": { $in: [...result.appno] }
             };
-            console.log(query);
         }
         else if (result?.enrno) {
             query = { "Student EduLearn ENR": { $in: [...result.enrno] } };
