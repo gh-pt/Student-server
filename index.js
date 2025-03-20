@@ -130,8 +130,8 @@ const transformStudentData = (apiResponses) => {
 // Connect MongoDB and Start Server
 connectDB().then(() => {
     const ipAddress = getLocalIp();
-    app.listen(PORT, ipAddress, () => {
-        console.log(`Server is running on http://${ipAddress}:${PORT}`);
+    app.listen(PORT, () => {
+        console.log(`Server is running on ${PORT}`);
     });
 }).catch((error) => {
     console.log("MongoDB Connection Failed !!!", error);
