@@ -30,6 +30,7 @@ const getLocalIp = () => {
 app.post('/byENR', async (req, res) => {
     try {
         const { result } = req.body;
+        console.log(result);
 
         let query = {};
 
@@ -50,8 +51,17 @@ app.post('/byENR', async (req, res) => {
         else if (result?.phone) {
             query = { "Guardians Mobile": { $in: [parseInt(...result.phone)] } };
         }
-        else {
+        else if(result?.name){
             query = { "Student First Name": { $in: [...result.name] } };
+        }
+        else if(result?.studentId){
+            query = { "Student ID": { $in: [...result.studentId] } };
+        }
+        else if(result?.guardianGlobalNo){
+            query = { "Guardians Global No": { $in: [...result.guardianGlobalNo] } };
+        }
+        else if(result?.guardianID){
+            query = { "Guardian ID": { $in: [parseInt(...result.guardianID)] } };
         }
 
         const data = await Student.find(query);
