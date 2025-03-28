@@ -48,19 +48,19 @@ app.post('/byENR', async (req, res) => {
             query = { "Guardians Email": { $in: [...result.email] } };
         }
         else if (result?.phone) {
-            query = { "Guardians Mobile": { $in: [parseInt(...result.phone)] } };
+            query = {"Guardians Mobile": { $in: result.phone.map(num => parseInt(num, 10)) }};
         }
         else if(result?.name){
             query = { "Student First Name": { $in: [...result.name] } };
         }
         else if(result?.studentId){
-            query = { "Student ID": { $in: [parseInt(...result.studentId)] } };
+            query = { "Student ID": { $in: result.studentId.map(studentId => parseInt(studentId, 10)) } };
         }
         else if(result?.guardianGlobalNo){
             query = { "Guardians Global No": { $in: [...result.guardianGlobalNo] } };
         }
         else if(result?.guardianID){
-            query = { "Guardian ID": { $in: [parseInt(...result.guardianID)] } };
+            query = { "Guardian ID": { $in: result.guardianID.map(guardianId => parseInt(guardianId, 10)) } };
         }
 
         const data = await Student.find(query);
