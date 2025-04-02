@@ -51,7 +51,11 @@ app.post('/byENR', async (req, res) => {
             query = {"Guardians Mobile": { $in: result.phone.map(num => parseInt(num, 10)) }};
         }
         else if(result?.name){
-            query = { "Student First Name": { $in: [...result.name] } };
+            query = {
+                $or: result.name.map(name => ({
+                  "Student First Name": { $regex: new RegExp(`^${name}$`, "i") }
+                }))
+              }; 
         }
         else if(result?.studentId){
             query = { "Student ID": { $in: result.studentId.map(studentId => parseInt(studentId, 10)) } };
