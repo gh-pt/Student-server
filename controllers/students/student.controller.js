@@ -46,7 +46,6 @@ export async function getStudentsData(req, res) {
 		const data = await Student.find(query);
 
 		if (data.length > 0) {
-			console.log(data);
 			const transformedData = transformStudentData(data);
 			res.json(transformedData); // or transform if needed
 		} else {
@@ -103,7 +102,6 @@ function transformStudentData(apiResponses) {
 
 	return Array.from(studentMap.values());
 }
-
 
 function transformStudentSchemaData(raw) {
 	return {
