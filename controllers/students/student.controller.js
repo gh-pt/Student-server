@@ -138,43 +138,23 @@ function transformStudentSchemaData(raw) {
 	};
 }
 
-const apiConfigs = [
-	{
-		url: "https://metabase-backend-1032326496689.asia-south1.run.app/api/card/670/query/json",
-		headers: {
-			"Content-Type": "application/x-www-form-urlencoded",
-			"x-api-key": "mb_SglS38LOaV0/69fua6nNbgQO5UQK++8krvhc2/VBlS0=",
-			Cookie: "metabase.DEVICE=b57e1406-108c-47db-826b-9a2496b62d6e",
-		},
-	},
-	{
-		url: "https://metabase-backend-1032326496689.asia-south1.run.app/api/card/275/query/json",
-		headers: {
-			"Content-Type": "application/x-www-form-urlencoded",
-			"x-api-key": "mb_SglS38LOaV0/69fua6nNbgQO5UQK++8krvhc2/VBlS0=",
-			Cookie: "metabase.DEVICE=b57e1406-108c-47db-826b-9a2496b62d6e",
-		},
-	},
-];
-
 export async function syncStudentData(req, res) {
 	try {
-		let combinedRawData = [];
+		const response = await axios.request(process.env.METABASE_SITE_URL, {
+			method: "post",
+			maxBodyLength: Infinity,
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded",
+				"x-api-key": process.env.X_API_KEY,
+			},
+		});
 
-		for (const config of apiConfigs) {
-			const response = await axios.request({ method: "post", ...config });
-			if (Array.isArray(response.data)) {
-				combinedRawData.push(...response.data);
-			}
+		if (!Array.isArray(response.data)) {
+			return res.status(404).json({ message: "No data received from API" });
 		}
 
-		if (combinedRawData.length === 0) {
-			return res
-				.status(404)
-				.json({ message: "No data received from either API" });
-		}
-
-		const transformedData = combinedRawData.map(transformStudentSchemaData);
+		// Transform the data to match the schema
+		const transformedData = response.data.map(transformStudentSchemaData);
 
 		// Delete existing records
 		await Student.deleteMany({});
