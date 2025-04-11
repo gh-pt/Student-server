@@ -76,6 +76,8 @@ function transformStudentData(apiResponses) {
 				"Shift Name": entry.shiftName,
 				"Grade Name": entry.gradeName,
 				Division: entry.division || "N/A",
+				House: entry.house || "N/A",
+				"Student Type": entry.studentType,
 				"Student EduLearn ENR": entry.studentEduLearnEnr || null,
 				"EduLearn Application No": entry.eduLearnApplicationNo || "N/A",
 				"Student New ENR": entry.studentNewEnr || null,
