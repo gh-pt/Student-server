@@ -105,40 +105,40 @@ function transformStudentData(apiResponses) {
 	return Array.from(studentMap.values());
 }
 
-function transformStudentSchemaData(raw) {
-	return {
-		ayYear: raw["AY YR"],
-		guardianId: raw["Guardian ID"],
-		stId: raw["St ID"],
-		studentId: raw["Student ID"],
-		studentType: raw["Student Type"],
-		schoolName: raw["School Name"],
-		brandName: raw["Brand Name"],
-		boardName: raw["Board Name"],
-		courseName: raw["Course Name"],
-		streamName: raw["Stream Name"],
-		shiftName: raw["Shift Name"],
-		gradeName: raw["Grade Name"],
-		division: raw["Division"],
-		house: raw["House"],
-		studentEduLearnEnr: raw["Student EduLearn ENR"],
-		studentNewEnr: raw["Student New ENR"],
-		eduLearnApplicationNo: raw["EduLearn Application No."],
-		studentFirstName: raw["Student First Name"],
-		studentMiddleName: raw["Student Middle Name"],
-		studentLastName: raw["Student Last Name"],
-		studentDOB: raw["Student DOB"] ? new Date(raw["Student DOB"]) : null,
-		guardiansRelationship: raw["Guardians Relationship"],
-		guardiansGlobalNo: raw["Guardians Global No"],
-		guardiansFirstName: raw["Guardians first_name"],
-		guardiansMiddleName: raw["Guardians middle_name"],
-		guardiansLastName: raw["Guardians last_name"],
-		guardiansMobile: String(raw["Guardians Mobile"]),
-		guardiansEmail: raw["Guardians Email"],
-		oneTimePassword: raw["One Time password"],
-		undertakingStatus: raw["Undertaking status"],
-	};
-}
+// function transformStudentSchemaData(raw) {
+// 	return {
+// 		ayYear: raw["AY YR"],
+// 		guardianId: raw["Guardian ID"],
+// 		stId: raw["St ID"],
+// 		studentId: raw["Student ID"],
+// 		studentType: raw["Student Type"],
+// 		schoolName: raw["School Name"],
+// 		brandName: raw["Brand Name"],
+// 		boardName: raw["Board Name"],
+// 		courseName: raw["Course Name"],
+// 		streamName: raw["Stream Name"],
+// 		shiftName: raw["Shift Name"],
+// 		gradeName: raw["Grade Name"],
+// 		division: raw["Division"],
+// 		house: raw["House"],
+// 		studentEduLearnEnr: raw["Student EduLearn ENR"],
+// 		studentNewEnr: raw["Student New ENR"],
+// 		eduLearnApplicationNo: raw["EduLearn Application No."],
+// 		studentFirstName: raw["Student First Name"],
+// 		studentMiddleName: raw["Student Middle Name"],
+// 		studentLastName: raw["Student Last Name"],
+// 		studentDOB: raw["Student DOB"] ? new Date(raw["Student DOB"]) : null,
+// 		guardiansRelationship: raw["Guardians Relationship"],
+// 		guardiansGlobalNo: raw["Guardians Global No"],
+// 		guardiansFirstName: raw["Guardians first_name"],
+// 		guardiansMiddleName: raw["Guardians middle_name"],
+// 		guardiansLastName: raw["Guardians last_name"],
+// 		guardiansMobile: String(raw["Guardians Mobile"]),
+// 		guardiansEmail: raw["Guardians Email"],
+// 		oneTimePassword: raw["One Time password"],
+// 		undertakingStatus: raw["Undertaking status"],
+// 	};
+// }
 
 export async function syncStudentData(req, res) {
 	try {
@@ -155,15 +155,12 @@ export async function syncStudentData(req, res) {
 			return res.status(404).json({ message: "No data received from API" });
 		}
 
-		// Transform the data to match the schema
-		const transformedData = response.data.map(transformStudentSchemaData);
-
 		// Delete existing records
 		await Student.deleteMany({});
 		console.log("🧹 Cleared existing student records.");
 
 		// Insert new data
-		const inserted = await Student.insertMany(transformedData);
+		const inserted = await Student.insertMany(response.data);
 		console.log(`✅ Inserted ${inserted.length} new student records.`);
 
 		res.json({
