@@ -85,6 +85,7 @@ function transformStudentData(apiResponses) {
 				"Student Middle Name": entry.studentMiddleName || null,
 				"Student Last Name": entry.studentLastName || null,
 				"Student DOB": entry.studentDOB,
+				"Lc Type": entry.lcType || null,
 				Guardians: [],
 			});
 		}

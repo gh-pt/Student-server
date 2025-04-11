@@ -33,9 +33,9 @@ const studentSchema = new Schema({
   guardiansLastName: String,
   guardiansMobile: String,
   guardiansEmail: String,
-
   oneTimePassword: String,
-  undertakingStatus: Boolean
+  undertakingStatus: Boolean,
+  lcType: String || null
 }, { timestamps: true }); // Auto adds createdAt and updatedAt
 
 export const Student = mongoose.model('StudentData', studentSchema);
