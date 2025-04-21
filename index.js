@@ -4,20 +4,20 @@ import "dotenv/config";
 import os from "os";
 import connectDB from "./db/index.js";
 import studentRouter from "./routes/student/student.routes.js";
-import fileRoutes from "./routes/files/file.route.js";
-import session from "express-session";
+import fileRouter from "./routes/upload_file/upload_file.route.js";
+// import session from "express-session";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(
-	session({
-		secret: "123445",
-		resave: false,
-		saveUninitialized: true, // Important for initializing empty sessions
-		cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1 day
-	})
-);
+// app.use(
+// 	session({
+// 		secret: "123445",
+// 		resave: false,
+// 		saveUninitialized: true, // Important for initializing empty sessions
+// 		cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1 day
+// 	})
+// );
 
 app.use(cors());
 app.use(express.json());
@@ -37,7 +37,7 @@ const getLocalIp = () => {
 };
 
 app.use("/student", studentRouter);
-app.use("/file", fileRoutes);
+app.use("/file", fileRouter);
 
 // Connect MongoDB and Start Server
 connectDB()
